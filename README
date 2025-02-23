@@ -1,0 +1,62 @@
+# Running the Solution and Accessing the Metrics Dashboard
+
+## Prerequisites
+Ensure you have the following installed:
+- Docker
+- Docker Compose
+
+## Running the Solution
+To start the FastAPI application along with Prometheus and Grafana, run the following command from the project root:
+
+```sh
+docker-compose up --build
+```
+
+# OR run in detached mode (background) 
+```sh
+docker-compose up -d --build
+```
+
+# to see all the containers status
+```sh
+docker ps 
+```
+
+This will:
+- Build the FastAPI application from the `Dockerfile`
+- Start the FastAPI application on port `8000`
+- Start Prometheus on port `9090`
+- Start Grafana on port `3000`
+
+## Accessing the Metrics Dashboard
+
+## Access Prometheus
+- Open a browser and go to: `http://localhost:9090`
+- Use Prometheus to query metrics exposed by FastAPI (`http://localhost:8000/metrics`)
+
+## Access Grafana
+- Open a browser and go to: `http://localhost:3000`
+- Login (default: `admin/admin`)
+- Navigate to Dashboards → FastAPI Metrics
+- This dashboard visualizes key metrics, including:
+  - Response time (min/max/average)
+  - Request count per endpoint
+  - Error rate
+
+## Generate Traffic for Metrics
+To generate API traffic and populate the metrics dashboard, run the provided Python script:
+
+```sh
+python3 fastapitraffic.py
+```
+
+Test the API:
+```sh
+curl http://localhost:8000/health
+curl http://localhost:8000/download
+```
+
+To stop the services, use:
+```sh
+docker-compose down
+```

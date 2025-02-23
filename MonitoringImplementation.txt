@@ -1,0 +1,35 @@
+Implementation of Metrics Tracking and Visualization
+
+1. Tracking Metrics in FastAPI
+Metrics are tracked using the prometheus_client library, which integrates seamlessly with FastAPI. The implementation includes:
+
+a. Instrumenting API Endpoints
+The application tracks key performance metrics using Prometheus instrumentation:
+
+Request Count (request_count): Tracks the number of requests per endpoint.
+Error Count (error_count): Counts the failed API calls.
+Request Latency (request_latency_seconds): Measures request duration as a histogram.
+A middleware wraps API requests to observe these metrics and expose them via /metrics.
+
+b. Prometheus Integration
+Prometheus scrapes metrics from http://fastapi-app:8000/metrics, as configured in prometheus.yml.
+Example scrape job:
+
+yaml
+Copy
+Edit
+scrape_configs:
+  - job_name: 'fastapi-app'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['fastapi-app:8000']
+2. Visualizing Metrics in Grafana
+Grafana provides a pre-configured FastAPI Metrics Dashboard that visualizes:
+
+Response times (min, max, avg)
+Request counts per endpoint
+Error rates over time
+Accessing the Dashboard
+Navigate to http://localhost:3000
+Go to Dashboards → FastAPI Metrics
+This setup ensures real-time monitoring of API performance and error trends.
